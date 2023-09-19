@@ -1,18 +1,16 @@
-require("dotenv").config() // load variables from .env
-const express = require("express")
-const registerMiddleware = require("./utils/middleware")
+const app = require('express')();
+const { v4 } = require('uuid');
 
-// Grab any ENV variables to be used, set default values in case .env file missing
-const { PORT = 3000 } = process.env
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
 
-// The Application Object
-const app = express()
+app.get('/api/item/:slug', (req, res) => {
+  const { slug } = req.params;
+  res.end(`Item: ${slug}`);
+});
 
-// registerMiddleware
-registerMiddleware(app)
-
-// Server listener
-// app.listen(PORT, () => console.log(`listening on port ${PORT}`))
-
-// Vercel listener
-export default app
+module.exports = app;
