@@ -1,6 +1,6 @@
 // New Express Router
 const router = require("express").Router()
-const isUserLoggedIn = require("../utils/auth")
+const isUserLoggedIn = require("../../utils/auth")
 
 // Index Route "/todo", returns all todos for that user
 router.get("/", isUserLoggedIn, async (req, res) => {
